@@ -1,0 +1,149 @@
+<html>
+<head>
+  <title>Vis 3</title>
+  <meta charset="utf-8" />
+</head>
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="https://d3js.org/queue.v1.min.js" type="text/javascript"></script>
+<style>
+.tick line {
+  shape-rendering: crispEdges;
+  stroke: #000;
+}
+
+line.minor  {
+  stroke: #777;
+  stroke-dasharray: 2,2;
+}
+
+path.domain {
+  fill: none;
+  stroke: black;
+}
+
+g text {
+  font-size: 12;
+}
+
+</style>
+<body onload="adjacency('countries.csv','air transport.csv','a');adjacency('countries.csv','Industrial development.csv','b');adjacency('countries.csv','power generation.csv','c');adjacency('countries.csv','Rail transport.csv','d');adjacency('countries.csv','RESCHEDULING AND REFINANCING.csv','e')">
+    <div >
+        <h1>Visualization 3</h1>
+        <p>Here each matrix represents one purpose. The x-axis represents the donors and the y-axis represents the recipients. The blue rectangles show us the relation between the countries whether they donate or receive and they also show the amount.</p>    </div>
+<div >
+    <h1>Air Transport</h1>
+<svg id="a" style="width:1000px;height:1000px;border:1px lightgray solid;" ></svg>
+</div>
+<div >
+  <h1>Industrial Development</h1>
+  <svg id="b" style="width:1000px;height:1000px;border:1px lightgray solid;" ></svg>
+</div>
+<div >
+    <h1>Power Generation</h1>
+  <svg id="c" style="width:1000px;height:1000px;border:1px lightgray solid;" ></svg>
+</div>
+<div >
+    <h1>Rail Transport</h1>
+  <svg id="d" style="width:1000px;height:1000px;border:1px lightgray solid;" ></svg>
+</div>
+<div >
+    <h1>Rescheduling and Refinancing</h1>
+  <svg id="e" style="width:1000px;height:1000px;border:1px lightgray solid;" ></svg>
+</div>
+  <footer>
+<script>
+
+  function adjacency(s1,s2,s3) {
+
+    queue()
+    .defer(d3.csv, s1)
+    .defer(d3.csv, s2)
+    .await(function(error, file1, file2) { createAdjacencyMatrix(file1, file2,s3); });
+
+    function createAdjacencyMatrix(nodes,edges,s3) {
+
+      var edgeHash = {};
+      for (x in edges) {
+        var id = edges[x].source + "-" + edges[x].target;
+        edgeHash[id] = edges[x];
+
+      }
+      matrix = [];
+      //create all possible edges
+      for (a in nodes) {
+        for (b in nodes) {
+          var grid = {id: nodes[a].id + "-" + nodes[b].id, x: b, y: a, weight: 0};
+
+          if (edgeHash[grid.id]) {
+
+            grid.weight = edgeHash[grid.id].weight;
+          }
+          matrix.push(grid);
+        }
+      }
+
+      var weightScale = d3.scale.linear()
+        .domain(d3.extent(function(d){ return d.weight }))
+        .range([0,1])
+      console.log("#"+s3)
+      d3.select("#"+s3)
+      .append("g")
+      .attr("transform", "translate(220,220)")
+      .attr("id", "adjacencyG"+s3)
+      .selectAll("rect")
+      .data(matrix)
+    .enter()
+      .append("rect")
+      .attr("width", 15)
+      .attr("height", 15)
+      .attr("x", function (d) {return d.x * 15})
+      .attr("y", function (d) {return d.y * 15})
+      .style("stroke", "black")
+      .style("stroke-width", "1px")
+      .style("fill", "steelblue")
+
+      .style("fill-opacity", function (d) {return d.weight; })
+      .on("mouseover", gridOver)
+    .append("svg:title")
+      .text(function(d, i) { return d.weight + ": amount"; });
+
+      var scaleSize = nodes.length * 15;
+      var nameScale = d3.scale.ordinal().domain(nodes.map(function (el) {return el.id})).rangePoints([0,scaleSize],1);
+
+      xAxis = d3.svg.axis()
+        .scale(nameScale)
+        .orient("top")
+        .tickSize(4);
+
+      yAxis = d3.svg.axis().scale(nameScale).orient("left").tickSize(4);
+
+      d3.select("#adjacencyG"+s3).append("g")
+        .call(xAxis)
+      .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("transform", "translate(-10,-10) rotate(90)");
+
+        d3.select("#adjacencyG"+s3).append("text")
+      .text("Donors")
+      .attr("transform", "translate(350,-150)");
+
+      d3.select("#adjacencyG"+s3).append("text")
+      .text("Recipients")
+      .attr("transform", "translate(-150,350)");
+
+
+      d3.select("#adjacencyG"+s3).append("g")
+        .call(yAxis);
+
+      function gridOver(d,i) {
+        d3.selectAll("rect")
+          .style("stroke-width", function (p) {return p.x == d.x || p.y == d.y ? "3px" : "1px"})
+      }
+
+    }
+
+  }
+  </script>
+  </footer>
+</body>
+</html>

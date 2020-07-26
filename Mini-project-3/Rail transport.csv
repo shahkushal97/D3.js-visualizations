@@ -1,0 +1,71 @@
+,target,source,coalesced_purpose_name,weight
+2,Australia,United States,rail transport,68372551.0
+10,Brazil,Canada,rail transport,17693.0
+11,Brazil,France,rail transport,111245166.0
+14,Brazil,Germany,rail transport,39749314.0
+21,Brazil,Japan,rail transport,1249130.0
+26,Brazil,Portugal,rail transport,936591.0
+29,Brazil,Spain,rail transport,140375.0
+37,Brazil,United States,rail transport,309560040.0
+44,Chile,France,rail transport,138444885.0
+50,Chile,Japan,rail transport,67201891.0
+61,Chile,United States,rail transport,16601.0
+62,Colombia,Austria,rail transport,2814444.0
+69,Colombia,France,rail transport,187097740.0
+73,Colombia,Germany,rail transport,191557984.0
+79,Colombia,Japan,rail transport,26351.0
+81,Colombia,Korea,rail transport,58854.0
+91,Colombia,United States,rail transport,154388.0
+105,Czech Republic,Italy,rail transport,688635.0
+107,Czech Republic,Japan,rail transport,126292586.0
+115,Czech Republic,United States,rail transport,189023.0
+122,Estonia,France,rail transport,856711.0
+129,Estonia,Sweden,rail transport,139108.0
+143,Hungary,France,rail transport,5304.0
+149,Hungary,United States,rail transport,72743.0
+153,India,Australia,rail transport,2671116.0
+163,India,Canada,rail transport,159410.0
+171,India,France,rail transport,165780050.0
+175,India,Germany,rail transport,284985226.0
+181,India,Japan,rail transport,11519785524.0
+188,India,Netherlands,rail transport,42065271.0
+193,India,Saudi Arabia,rail transport,79371799.0
+196,India,Spain,rail transport,19497.0
+199,India,Sweden,rail transport,4306879.0
+205,India,United Kingdom,rail transport,214915085.0
+210,India,United States,rail transport,35997362.0
+218,Korea,France,rail transport,22092.0
+220,Korea,Germany,rail transport,29015007.0
+222,Korea,Japan,rail transport,903052049.0
+226,Korea,United States,rail transport,105533013.0
+235,Latvia,Sweden,rail transport,330198.0
+248,Lithuania,Sweden,rail transport,175481.0
+251,Lithuania,United States,rail transport,77461.0
+263,Poland,France,rail transport,1262932.0
+266,Poland,Italy,rail transport,1342614.0
+267,Poland,Japan,rail transport,2569417.0
+270,Poland,Sweden,rail transport,383.0
+273,Poland,United Kingdom,rail transport,411633.0
+277,Poland,United States,rail transport,32633.0
+291,Romania,Japan,rail transport,279437002.0
+293,Romania,Switzerland,rail transport,2093199.0
+298,Romania,United States,rail transport,649960.0
+304,Saudi Arabia,United States,rail transport,386553.0
+309,Slovak Republic,Canada,rail transport,17509.0
+321,Slovenia,France,rail transport,15810.0
+324,Slovenia,Italy,rail transport,1221400.0
+331,South Africa,France,rail transport,1034209.0
+335,South Africa,Japan,rail transport,65416241.0
+340,South Africa,Norway,rail transport,24172.0
+349,South Africa,United States,rail transport,533570.0
+356,Taiwan,Saudi Arabia,rail transport,212202942.0
+362,Thailand,Australia,rail transport,36367087.0
+366,Thailand,Belgium,rail transport,430774.0
+372,Thailand,Denmark,rail transport,5010773.0
+377,Thailand,France,rail transport,109211256.0
+380,Thailand,Germany,rail transport,162391210.0
+382,Thailand,Italy,rail transport,1488852.0
+386,Thailand,Japan,rail transport,5249205847.0
+390,Thailand,Korea,rail transport,111908.0
+400,Thailand,United Kingdom,rail transport,12874688.0
+404,Thailand,United States,rail transport,18742.0

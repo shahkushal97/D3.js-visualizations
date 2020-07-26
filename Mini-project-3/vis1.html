@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.grow rect {
+  stroke: black;
+  shape-rendering: crispEdges;
+  fill: none;
+}
+
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.legend text {
+	font: 12px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path,
+.x.axis line {
+  display: none;
+}
+
+.axisRed text{
+  fill: red;
+}
+
+.y.axis path,
+.y.axis line {
+  display: none;
+
+}
+.legend { list-style: none; }
+        .legend li { float: left; margin-right: 10px; }
+        .legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 2px; }
+        .legend .donated { background-color: #0000ff; }
+        .legend .received { background-color: #ff0000; }
+
+</style>
+<h1>Visualization 1</h1>
+<p>Here, the x-axis has the top 20 donors arranged in descending order (United States donates the highest sum) and y-axis has
+top 10 recipients arranged in descending order (India receives the highest sum). The red circle represents the amount of money.
+<br>1) This visualization shows us the major donators and the countries they donate to.
+<br>2) It also shows the major recipients and the countries they receive from</p>
+
+
+<ul class="legend">
+
+  <li><span class="donated"></span> Donor</li>
+  <li><span class="received"></span> Recipient</li>
+</ul>
+<svg class="chart"></svg>
+<script src="d3.v3.min.js"></script>
+<script>
+
+
+var totWidth = 1500,
+    totHeight = 800,
+    margin = {top: 150, right: 0, bottom: 80, left: 200},
+    width = totWidth - (margin.left + margin.right),
+    height = totHeight - (margin.top + margin.bottom);
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width]);
+
+var y = d3.scale.ordinal()
+    .rangeRoundBands([height, 0]);
+
+var xAxis = d3.svg.axis()
+  	.scale(x)
+  	.orient("top");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var chart = d3.select(".chart")
+    .attr("width", totWidth+200)
+    .attr("height", totHeight)
+  	.append("g")
+    .attr("transform","translate("+margin.left+","+margin.top+")");
+
+d3.tsv("q11.tsv"/*, type*/, function(error, data) {
+
+	var grpNames = d3.keys(data[0]).filter(function(key) { return key !== "recipient"; });
+
+  data.forEach(function(d) {
+    d.groups = grpNames.map(function(name) { return {name: name, value: +d[name]}; });
+  });
+
+  y.domain(data.map(function(d) { return d.recipient; }));
+  var allcols = Object.keys(data[0]),
+  	cols = allcols.slice(1,allcols.length);
+  x.domain(grpNames);
+/*  var legend = d3.select(".legend1")
+       .attr("transform", `translate(${totWidth + margin.right - 40}, 0)`)
+     //.selectAll("g")
+     .data([100000000])
+     .join("g");
+       //.attr("transform", (d, i) => `translate(0, ${i * 2.5 * maxRadius})`);
+
+   legend.append("circle")
+     .attr("r", (100000000/500000))
+     .attr("fill", "steelblue")
+
+   legend.append("text")
+     .attr("font-family", "sans-serif")
+     .attr("font-size", 12)
+     .attr("dominant-baseline", "middle")
+     .text(d => d);
+     //.attr("x", maxRadius + 5)
+
+  //console.log(data)*/
+ chart.append("g")
+      .attr("class","x axis")
+      .attr("transform","translate(0,0)")
+      .call(xAxis)
+        .selectAll("text")
+        .style("font", "20px times")
+	      	.style("text-anchor","start")
+          .style("fill","Blue")
+	      	.attr("transform","rotate(-90)")
+	      	.attr("dx","0em");
+
+  chart.append("g")
+      .attr("class","y axis")
+      .call(yAxis)
+      .selectAll("text")
+      .style("font", "20px times")
+      .style("fill","red")
+      .attr("dx", "-1.5em");
+
+
+
+	 for(item in data)
+	 {
+    let y_tick = y(data[item].recipient);
+    //console.log(Object.keys(data[item]))
+    var donor_list = Object.keys(data[item])
+    //console.log(donor_list[0])
+
+    //break;
+    for (let i = 1; i <= 20; i++) {
+
+        chart.append("circle")
+          .attr("cy",y(data[item].recipient)+30)
+          .attr("cx",(i)*x.rangeBand()-50)
+          .attr("r", Math.sqrt(data[item][donor_list[i]]/500000))
+          .style('fill', "red")
+          .style("stroke","black");
+      }
+	 }
+ });
+
+
+</script>

@@ -1,0 +1,166 @@
+,target,source,coalesced_purpose_name,weight
+1,Australia,United States,industrial development,8970500.0
+5,Brazil,Austria,industrial development,5167098.0
+6,Brazil,Belgium,industrial development,1152172.0
+8,Brazil,Canada,industrial development,29748658.0
+13,Brazil,Germany,industrial development,82355164.0
+16,Brazil,Ireland,industrial development,77475.0
+17,Brazil,Italy,industrial development,780657.0
+20,Brazil,Japan,industrial development,301942282.0
+23,Brazil,Korea,industrial development,123207.0
+24,Brazil,Norway,industrial development,80831.0
+25,Brazil,Portugal,industrial development,50019.0
+28,Brazil,Spain,industrial development,1110417.0
+30,Brazil,Switzerland,industrial development,1034972.0
+31,Brazil,United Kingdom,industrial development,39174808.0
+35,Brazil,United States,industrial development,1785108528.0
+39,Canada,United States,industrial development,1961661.0
+40,Chile,Belgium,industrial development,522868.0
+41,Chile,Canada,industrial development,18676468.0
+43,Chile,France,industrial development,524894.0
+46,Chile,Germany,industrial development,12253925.0
+48,Chile,Italy,industrial development,569118.0
+49,Chile,Japan,industrial development,5379848.0
+52,Chile,Norway,industrial development,392917.0
+54,Chile,Spain,industrial development,2505456.0
+55,Chile,Sweden,industrial development,1084383.0
+56,Chile,Switzerland,industrial development,1984348.0
+59,Chile,United States,industrial development,675643062.0
+63,Colombia,Belgium,industrial development,437122.0
+65,Colombia,Canada,industrial development,23245209.0
+66,Colombia,Denmark,industrial development,200450.0
+68,Colombia,France,industrial development,11935741.0
+71,Colombia,Germany,industrial development,53036463.0
+75,Colombia,Italy,industrial development,8956908.0
+78,Colombia,Japan,industrial development,161290.0
+80,Colombia,Korea,industrial development,344229.0
+82,Colombia,Netherlands,industrial development,2025344.0
+84,Colombia,Spain,industrial development,3329991.0
+85,Colombia,Switzerland,industrial development,743149.0
+86,Colombia,United Kingdom,industrial development,1214104.0
+89,Colombia,United States,industrial development,789030171.0
+92,Cyprus,Austria,industrial development,3697861.0
+95,Cyprus,France,industrial development,10278526.0
+99,Czech Republic,Canada,industrial development,1238974.0
+101,Czech Republic,Finland,industrial development,330061.0
+102,Czech Republic,France,industrial development,324106.0
+106,Czech Republic,Japan,industrial development,90879943.0
+108,Czech Republic,Spain,industrial development,5896.0
+109,Czech Republic,Sweden,industrial development,102544.0
+110,Czech Republic,United Kingdom,industrial development,357921.0
+113,Czech Republic,United States,industrial development,74391574.0
+117,Estonia,Canada,industrial development,33293.0
+118,Estonia,Czech Republic,industrial development,43746.0
+119,Estonia,Finland,industrial development,14402937.0
+123,Estonia,Germany,industrial development,1104.0
+124,Estonia,Norway,industrial development,25546.0
+125,Estonia,Spain,industrial development,2890.0
+127,Estonia,Sweden,industrial development,615725.0
+131,Estonia,United States,industrial development,37708473.0
+135,Greece,United States,industrial development,7939384.0
+139,Hungary,Canada,industrial development,709294.0
+141,Hungary,Finland,industrial development,952711.0
+142,Hungary,France,industrial development,106081.0
+145,Hungary,Italy,industrial development,491160.0
+147,Hungary,United States,industrial development,597708744.0
+151,India,Australia,industrial development,24434534.0
+154,India,Austria,industrial development,7202447.0
+157,India,Belgium,industrial development,223779.0
+161,India,Canada,industrial development,54685827.0
+165,India,Czech Republic,industrial development,844507.0
+166,India,Denmark,industrial development,160372258.0
+167,India,Finland,industrial development,31746338.0
+169,India,France,industrial development,736412685.0
+173,India,Germany,industrial development,1768993054.0
+177,India,Italy,industrial development,254284699.0
+179,India,Japan,industrial development,2540561929.0
+183,India,Kuwait,industrial development,131175647.0
+186,India,Netherlands,industrial development,50767936.0
+191,India,Norway,industrial development,160646315.0
+195,India,Spain,industrial development,1386496.0
+197,India,Sweden,industrial development,12572753.0
+200,India,Switzerland,industrial development,76369785.0
+203,India,United Kingdom,industrial development,141881911.0
+208,India,United States,industrial development,1295117393.0
+213,Ireland,United States,industrial development,52303341.0
+217,Korea,France,industrial development,28328996.0
+219,Korea,Germany,industrial development,75072695.0
+221,Korea,Japan,industrial development,508053866.0
+224,Korea,United States,industrial development,866792664.0
+227,Kuwait,United States,industrial development,278059881.0
+229,Latvia,Czech Republic,industrial development,165703.0
+230,Latvia,France,industrial development,280691.0
+233,Latvia,Sweden,industrial development,726843.0
+236,Latvia,United States,industrial development,28634509.0
+238,Lithuania,Czech Republic,industrial development,165703.0
+239,Lithuania,France,industrial development,876296.0
+242,Lithuania,Liechtenstein,industrial development,55926.0
+244,Lithuania,Spain,industrial development,2472.0
+246,Lithuania,Sweden,industrial development,104441.0
+250,Lithuania,United States,industrial development,36849047.0
+254,New Zealand,United States,industrial development,203451199.0
+258,Poland,Canada,industrial development,3662485.0
+260,Poland,Finland,industrial development,6313047.0
+262,Poland,France,industrial development,5201785.0
+265,Poland,Italy,industrial development,5914647.0
+269,Poland,Sweden,industrial development,589007.0
+272,Poland,United Kingdom,industrial development,42787511.0
+275,Poland,United States,industrial development,548534715.0
+279,Portugal,United States,industrial development,270172.0
+280,Qatar,United States,industrial development,80976522.0
+282,Romania,Austria,industrial development,24396.0
+285,Romania,Canada,industrial development,685484.0
+288,Romania,France,industrial development,1186512.0
+289,Romania,Italy,industrial development,358478.0
+290,Romania,Japan,industrial development,80413016.0
+292,Romania,Spain,industrial development,5603350.0
+294,Romania,United Kingdom,industrial development,323178.0
+296,Romania,United States,industrial development,169640623.0
+299,Saudi Arabia,Austria,industrial development,203662.0
+300,Saudi Arabia,Japan,industrial development,222224525.0
+302,Saudi Arabia,United States,industrial development,254167658.0
+307,Slovak Republic,Canada,industrial development,1621773.0
+310,Slovak Republic,France,industrial development,101380.0
+313,Slovak Republic,Italy,industrial development,1454923.0
+315,Slovak Republic,Spain,industrial development,1350023.0
+317,Slovak Republic,Sweden,industrial development,400873.0
+318,Slovak Republic,United Kingdom,industrial development,336613.0
+320,Slovenia,Canada,industrial development,49950.0
+322,Slovenia,Germany,industrial development,16875940.0
+325,South Africa,Australia,industrial development,91287.0
+326,South Africa,Belgium,industrial development,7238.0
+327,South Africa,Canada,industrial development,26700909.0
+328,South Africa,Denmark,industrial development,4467244.0
+329,South Africa,Finland,industrial development,7517.0
+332,South Africa,Germany,industrial development,937574.0
+333,South Africa,Ireland,industrial development,229580.0
+334,South Africa,Japan,industrial development,185091.0
+336,South Africa,Netherlands,industrial development,1380782.0
+338,South Africa,Norway,industrial development,15424548.0
+341,South Africa,Sweden,industrial development,1198432.0
+343,South Africa,Switzerland,industrial development,2665028.0
+344,South Africa,United Kingdom,industrial development,29567081.0
+347,South Africa,United States,industrial development,9681699.0
+351,Spain,United States,industrial development,7062587.0
+353,Sweden,United States,industrial development,35282669.0
+354,Taiwan,France,industrial development,70830.0
+355,Taiwan,Japan,industrial development,1201758.0
+358,Taiwan,United States,industrial development,616602612.0
+360,Thailand,Australia,industrial development,26897.0
+363,Thailand,Austria,industrial development,2281844.0
+365,Thailand,Belgium,industrial development,3765246.0
+368,Thailand,Canada,industrial development,70008809.0
+370,Thailand,Denmark,industrial development,7334447.0
+373,Thailand,Finland,industrial development,58111179.0
+375,Thailand,France,industrial development,23981834.0
+378,Thailand,Germany,industrial development,166368356.0
+384,Thailand,Japan,industrial development,1348021971.0
+388,Thailand,Korea,industrial development,1096198.0
+392,Thailand,Netherlands,industrial development,13813129.0
+394,Thailand,Norway,industrial development,6304303.0
+396,Thailand,Spain,industrial development,32435.0
+397,Thailand,Sweden,industrial development,13259316.0
+399,Thailand,United Kingdom,industrial development,123175026.0
+402,Thailand,United States,industrial development,1460262364.0
+405,United Arab Emirates,Austria,industrial development,760972.0
+406,United Arab Emirates,Japan,industrial development,699213.0
