@@ -1,0 +1,252 @@
+<html>
+<head>
+    <style>
+        body {
+            font-family: sans-serif
+        }
+
+        h3 {
+            background-color: white;
+            color: black;
+            padding: 5px;
+        }
+
+        svg {
+            border-style: solid;
+            border-color: black;
+            border-width: 1px;
+            padding: 5px;
+        }
+        div{ padding: 10px;}
+
+
+        .mainView {
+            display: flex;
+        }
+
+    </style>
+    <script src="d3.js"></script>
+</head>
+
+<body>
+
+     <script>
+
+    let store = {}
+
+
+    function loadData() {
+    return Promise.all([
+        d3.csv("data.csv"),
+        d3.json("countries.geo.json"),
+    ]).then(datasets => {
+      console.log(datasets[0])
+        store.routes = datasets[0];
+        store.geoJSON = datasets[1]
+        return store;
+    })
+}
+
+
+    function groupBydonor(data) {
+
+    let result = data.reduce((result, d) => {
+        let currentData = result[d.donor] || {
+
+            "Donor_name": d.donor,
+            "Count": Number(d.commitment_amount_usd_constant)
+
+        }
+
+        currentData.Count += Number(d.commitment_amount_usd_constant)
+
+        result[d.donor] =
+        {
+            "Donor_name": d.donor,
+            "Count":currentData.Count
+        }
+
+        return result;
+    }, {})
+
+
+    result = Object.keys(result).map(key => result[key])
+    result = result.sort((a,b) => {
+    return d3.descending(a.Count,b.Count)
+    }) //TODO: Sort the data in descending order of count.
+
+    return result
+}
+
+function groupByrecipient(data) {
+
+    let result = data.reduce((result, d) => {
+        let currentData = result[d.recipient] || {
+
+            "recipient_name": d.recipient,
+            "Count": Number(d.commitment_amount_usd_constant)
+
+        }
+
+        currentData.Count += Number(d.commitment_amount_usd_constant)
+
+        result[d.recipient] =
+        {
+            "recipient_name": d.recipient,
+            "Count":currentData.Count
+        }
+
+        return result;
+    }, {})
+
+
+    result = Object.keys(result).map(key => result[key])
+    result = result.sort((a,b) => {
+    return d3.descending(a.Count,b.Count)
+    })
+
+    return result
+}
+
+function showData() {
+
+    let routes = store.routes
+    let donors = groupBydonor(store.routes);
+    let recipient = groupByrecipient(store.routes);
+
+
+    Data_list_donor(store.geoJSON, store.routes)
+    Data_list_recipient(store.geoJSON, store.routes)
+
+
+}
+
+
+function Data_list_donor(mapinfo, data) {
+
+    let dataindex = {}
+    for (let c of data){
+        let country = c.donor;
+        dataindex[country] = +c.commitment_amount_usd_constant
+    }
+
+    mapinfo.features = mapinfo.features.map(d => {
+        let country = d.properties.name;
+        let level = dataindex[country]
+        console.log("level", level)
+        d.properties.level = level
+        return d
+    })
+    let maxintensity = d3.max(mapinfo.features, d=> d.properties.level)
+
+    let medianintensity = d3.median(mapinfo.features, d=> d.properties.level)
+
+    let cScale = d3.scaleLinear()
+    .domain([0, medianintensity, maxintensity])
+    .range(["white", "green", "darkgreen"])
+
+  let width = 700;
+  let height = 600;
+  let container = d3.select("#m1")
+     container
+        .attr("width", width)
+        .attr("height", height).
+  config = {width, height, container}
+
+  let projection = d3.geoMercator()
+  projection.scale(97)
+            .translate([width / 2, height / 2 + 20])
+
+  store.mapProjection = projection;
+
+
+  let path = d3.geoPath()
+    .projection(projection)
+
+  container.selectAll("path").data(mapinfo.features)
+      .enter().append("path")
+      .attr("d", d => path(d))
+      .attr("stroke", "#ccc")
+      .attr("fill",
+              d => d.properties.level?
+              cScale(d.properties.level):
+              "white"
+        )
+}
+
+function Data_list_recipient(mapinfo, data) {
+
+    let dataindex = {}
+
+    for (let c of data){
+        let country = c.recipient;
+        dataindex[country] = +c.commitment_amount_usd_constant
+    }
+
+
+    mapinfo.features = mapinfo.features.map(d => {
+        let country = d.properties.name;
+        let level = dataindex[country]
+        console.log("level", level)
+        d.properties.level = level
+        return d
+    })
+    let maxintensity = d3.max(mapinfo.features, d=> d.properties.level)
+
+    let medianintensity = d3.median(mapinfo.features, d=> d.properties.level)
+
+    let cScale = d3.scaleLinear()
+    .domain([0, medianintensity, maxintensity])
+    .range(["red", "yellow", "white"])
+
+  let width = 700;
+  let height = 600;
+  let container = d3.select("#m2")
+     container
+        .attr("width", width)
+        .attr("height", height)
+  config = {width, height, container}
+
+
+  let projection = d3.geoMercator()
+  projection.scale(97)
+            .translate([width / 2, height / 2 + 20])
+
+  store.mapProjection = projection;
+
+
+  let path = d3.geoPath()
+    .projection(projection)
+
+  container.selectAll("path").data(mapinfo.features)
+      .enter().append("path")
+      .attr("d", d => path(d))
+      .attr("stroke", "#ccc")
+      .attr("fill",
+              d => d.properties.level?
+              cScale(d.properties.level):
+              "white"
+        )
+
+}
+
+
+
+
+loadData().then(showData);
+
+    </script>
+    <div class="mainView">
+
+        <div id="d1">
+            <h3>Countries by amount(USD) donated</h2>
+            <svg id="m1"></svg>
+        </div>
+        <div id="d2">
+            <h3>Countries by amount(USD) received</h2>
+            <svg id="m2"></svg>
+        </div>
+    </div>
+</body>
+
+</html>
