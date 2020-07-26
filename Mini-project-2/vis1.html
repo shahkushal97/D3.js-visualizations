@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.grow rect {
+  stroke: black;
+  shape-rendering: crispEdges;
+  fill: none;
+}
+
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.legend text {
+	font: 12px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path,
+.x.axis line {
+  display: none;
+}
+
+
+.y.axis path,
+.y.axis line {
+  display: none;
+}
+
+.legend { list-style: none; }
+        .legend li { float: left; margin-right: 10px; }
+        .legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 2px; }
+        .legend .donated { background-color: #0000ff; }
+        .legend .received { background-color: #ff0000; }
+</style>
+<h1>Visualization 1</h1>
+<p>
+  Each country is represented by two types of circles, the blue circle represesnts amount donated, the red represents amount received.
+<br>
+  1) This visualization correctly shows the trend followed by any country based on the donations or the amount received.<br>
+  2) It also shows if the country changes its role as donor or recepient.
+  <br>
+</p>
+<ul class="legend">
+  <li><span class="donated"></span> Amount Donated in Billions</li><br>
+  <li><span class="received"></span> Amount Received in Billions</li>
+</ul>
+<svg class="chart"></svg>
+
+<script src="d3.v3.min.js"></script>
+<script>
+
+
+
+  var totWidth = 1500,
+    totHeight = totWidth * 1.7,
+    margin = {top: 80, right: 0, bottom: 0, left: 200},
+    width = totWidth - (margin.left + margin.right),
+    height = totHeight - (margin.top + margin.bottom);
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width]);
+
+var y = d3.scale.ordinal()
+    .rangeRoundBands([height, 0]);
+
+var xAxis = d3.svg.axis()
+  	.scale(x)
+  	.orient("top");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+
+var chart = d3.select(".chart")
+    .attr("width", totWidth)
+    .attr("height", totHeight)
+  	.append("g")
+    .attr("transform","translate("+margin.left+","+margin.top+")")
+    ;
+
+d3.tsv("q1_r.tsv"/*, type*/, function(error, data) {
+
+	var grpNames = d3.keys(data[0]).filter(function(key) { return key !== "recipient"; });
+
+  data.forEach(function(d) {
+    d.groups = grpNames.map(function(name) { return {name: name, value: +d[name]}; });
+  });
+
+  y.domain(data.map(function(d) { return d.recipient; }));
+  var allcols = Object.keys(data[0]),
+  	cols = allcols.slice(1,allcols.length);
+  x.domain(grpNames);
+
+ chart.append("g")
+      .attr("class","x axis")
+      .attr("transform","translate(0,0)")
+      .call(xAxis)
+        .selectAll("text")
+        .style("font", "20px times")
+	      	.style("text-anchor","start")
+	      	.attr("transform","rotate(-90)")
+	      	.attr("dx","0.5em")
+          ;
+
+  chart.append("g")
+      .attr("class","y axis")
+      .call(yAxis)
+      .selectAll("text")
+      .style("font", "20px times")
+
+      ;
+  console.log("recipient")
+	 for(item in data)
+	 {
+    let y_tick = y(data[item].recipient);
+    for (let i = 1973; i <= 2013; i++) {
+
+        console.log(y(data[item].recipient))
+        chart.append("circle")
+          .attr("cy",y(data[item].recipient)+30)
+          .attr("cx",(i-1973)*x.rangeBand()+20)
+          .attr("r", Math.sqrt(data[item][i]/3000000))
+          .style('fill', "red")
+          .style("opacity", 0.6);
+
+      }
+	 }
+
+ });
+
+ d3.tsv("q1_d.tsv"/*, type*/, function(error, data) {
+
+ var grpNames = d3.keys(data[0]).filter(function(key) { return key !== "donor"; });
+
+ data.forEach(function(d) {
+   d.groups = grpNames.map(function(name) { return {name: name, value: +d[name]}; });
+ });
+
+ y.domain(data.map(function(d) { return d.donor; }));
+ var allcols = Object.keys(data[0]),
+   cols = allcols.slice(1,allcols.length);
+ x.domain(grpNames);
+  console.log("Donors")
+
+  for(item in data)
+  {
+   let y_tick = y(data[item].donor);
+   for (let i = 1973; i <= 2013; i++) {
+
+       console.log(y(data[item].donor))
+       chart.append("circle")
+         .attr("cy",y(data[item].donor)+30)
+         .attr("cx",(i-1973)*x.rangeBand()+20)
+         .attr("r", Math.sqrt(data[item][i]/3000000))
+         .style('fill', "blue")
+         .style("opacity", 0.6);
+
+     }
+  }
+
+});
+
+</script>

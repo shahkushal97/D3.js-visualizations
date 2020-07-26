@@ -1,0 +1,481 @@
+<!--<html>
+<head>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color:rgb(252, 252, 252);
+        }
+
+        h4 {
+            background-color: white;
+            color:black;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .mainView {
+            display: flex;
+
+        }
+
+    </style>
+    <script src="d3.js"></script>
+  </head>
+  <body>
+
+     <script>
+
+       var totWidth = 1700,
+           totHeight = totWidth * 1.2,
+           margin = {top: 80, right: 0, bottom: 80, left: 400},
+           width = totWidth - (margin.left + margin.right),
+           height = totHeight - (margin.top + margin.bottom);
+
+       var x = d3.scale.ordinal()
+           .rangeRoundBands([0, width]);
+
+       var y = d3.scale.ordinal()
+           .rangeRoundBands([height, 0]);
+
+       var xAxis = d3.svg.axis()
+         	.scale(x)
+         	.orient("top");
+
+       var yAxis = d3.svg.axis()
+           .scale(y)
+           .orient("left")
+
+       var chart = d3.select(".chart")
+           .attr("width", totWidth+100)
+           .attr("height", totHeight)
+         	.append("g")
+           .attr("transform","translate("+margin.left+","+margin.top+")");
+
+       d3.tsv("q2.tsv"/*, type*/, function(error, data) {
+
+       	var grpNames = d3.keys(data[0]).filter(function(key) { return key !== "coalesced_purpose_name"; });
+
+         data.forEach(function(d) {
+           d.groups = grpNames.map(function(name) { return {name: name, value: +d[name]}; });
+         });
+
+         y.domain(data.map(function(d) { return d.coalesced_purpose_name; }));
+         var allcols = Object.keys(data[0]),
+         	cols = allcols.slice(1,allcols.length);
+         x.domain(grpNames);
+
+         console.log(data)
+        chart.append("g")
+             .attr("class","x axis")
+             .attr("transform","translate(0,0)")
+             .call(xAxis)
+               .selectAll("text")
+               .style("font", "20px times")
+       	      	.style("text-anchor","start")
+       	      	.attr("transform","rotate(-90)")
+       	      	.attr("dx","0.5em");
+
+         chart.append("g")
+
+             .attr("class","y axis")
+             .call(yAxis)
+             .selectAll("text")
+             .style("font", "20px times")
+             ;
+         var max = 0
+         var min = 0
+
+         for(item in data)
+       	 {
+           let y_tick = y(data[item].coalesced_purpose_name);
+           for (let i = 1973; i <= 2013; i++) {
+               if(max < data[item][i])
+               {
+                 max = data[item][i]
+               }
+             }
+          }
+
+       	 for(item in data)
+       	 {
+           let y_tick = y(data[item].coalesced_purpose_name);
+           for (let i = 1973; i <= 2013; i++) {
+               chart.append("circle")
+                 .attr("cy",y(data[item].coalesced_purpose_name)+90)
+                 .attr("cx",(i-1973)*x.rangeBand()+5)
+                 .attr("r", Math.sqrt(data[item][i]/10000000))
+                 .style('fill', "red")
+                 .style("stroke","black");
+             }
+           chart.append("circle")
+                 .attr("cy",y(data[item].coalesced_purpose_name)+90)
+                 .attr("cx",43*x.rangeBand())
+                 .attr("r", Math.sqrt(data[item]["total"]/10000000))
+
+                 .style('fill', "blue")
+                 .style("stroke","black");
+       	 }
+
+        });
+     </script>
+
+
+     <div class="mainView">
+         <div>
+             <h4>Countries</h4>
+             <svg class="chart"></svg>
+         </div>
+         <div>
+             <h4>Countries sorted by amount received</h4>
+             <svg id="Chart2"></svg>
+         </div>
+
+     </div>
+     </body>
+     </html>
+   -->
+   <!DOCTYPE html>
+   <meta charset="utf-8">
+   <style>
+
+   .grow rect {
+     stroke: black;
+     shape-rendering: crispEdges;
+     fill: none;
+   }
+
+
+   .axis text {
+     font: 10px sans-serif;
+   }
+
+   .legend text {
+   	font: 12px sans-serif;
+   }
+
+   .axis path,
+   .axis line {
+     fill: none;
+     stroke: #000;
+     shape-rendering: crispEdges;
+   }
+
+   .x.axis path,
+   .x.axis line {
+     display: none;
+   }
+
+
+   .y.axis path,
+   .y.axis line {
+     display: none;
+
+   }
+   .legend { list-style: none; }
+           .legend li { float: left; margin-right: 10px; }
+           .legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 2px; }
+           .legend .donated { background-color: #ff0000; }
+           .legend .received { background-color: 	#4682B4; }
+
+   </style>
+   <h1>Visualization 2</h1>
+
+   <p>
+     Top 10 types of disembursments are shown it the chart. Blue circles represent the amount per year per category.<br>
+     1) This visualization clearly shows us the trends of the countries based on top 10 purposes over-time.<br>
+     2) The purposes are arranged in descending order (ex: air transport has the highest amount and so on.)
+     <br>
+     On the X axis we have time(year) and on the Y axis we have categories of disembursment.
+   </p>
+
+
+
+   <ul class="legend">
+     <li><span class="received"></span> Amount of disembursment per category per year in Billions USD</li>
+   </ul>
+   <svg class="chart"></svg>
+   <script src="d3.v3.min.js"></script>
+    <script src="d3.js"></script>
+     <script src="d3.min.js"></script>
+   <script>
+
+   'use-stict';
+   let store = {}
+
+   function loadData() {
+       return Promise.all([
+           d3.csv("data.csv"),
+       ]).then(datasets => {
+           store.aidData = datasets[0];
+           store.country_capital = datasets[1];
+           store.geoJSON = datasets[2];
+           return store;
+       })
+   }
+
+   function nestData(next_by, amount, data) {
+
+       return d3.nest().key(function (d) {
+           return d[next_by]
+       })
+       .rollup(function (leaves) {
+           return d3.sum(leaves, function (d) {
+               return d[amount];
+           });
+       })
+       .entries(data);
+   }
+
+   function processData() {
+
+       let disbursements = nestData("coalesced_purpose_name", "commitment_amount_usd_constant", store.aidData).map(function (d) {
+           let total_donated = d.value;
+           return { purpose: d.key, ["amount"]: total_donated };
+       });
+
+       //Top 10 purpose of disbursements
+       disbursements = disbursements.sort(function (a, b) { return b.amount - a.amount }).slice(0, 10);
+
+       disbursements = disbursements.map(element => {
+           return element.purpose;
+       });
+
+       //Get all disbursements of top 10 type of disbursements
+       function groupByPurpose(objectArray, property) {
+           return objectArray.reduce(function (acc, obj) {
+               let key = obj[property];
+
+               if (disbursements.includes(key)){
+                   if (!acc[key]) {
+                       acc[key] = [];
+                   }
+                   acc[key].push(obj);
+                   return acc;
+               }
+               return acc;
+
+           }, {});
+       }
+
+       let groupedPurpose = groupByPurpose(store.aidData, 'coalesced_purpose_name');
+
+       //Group with year for each top 10 purpose
+       let max = 0;
+       let min = Infinity;
+
+       function groupByYear(objectArray, property) {
+           return objectArray.reduce(function (acc, obj) {
+               let key = obj[property];
+               if (!acc[key]) {
+                   acc[key] = 0;
+               }
+               acc[key] += +obj.commitment_amount_usd_constant;
+               max = Math.max(acc[key],max);
+               min = Math.min(acc[key], min);
+               return acc;
+
+           }, {});
+       }
+
+       let final_data = [];
+
+       for(let i=0;i<disbursements.length;i++){
+           let groupedYear = groupByYear(groupedPurpose[disbursements[i]], 'year');
+           final_data.push({ name: disbursements[i], values: groupedYear})
+       }
+
+       //Convert key value pair to array of objects
+       final_data = final_data.map(function (item) {
+
+           let years = Object.keys(item.values).map(data => { return { date: data, price: item.values[data] } })
+
+           return { name: item.name, values: years}
+       })
+
+       let graphData = [];
+       let maxGraph=0, minGraph=Infinity;
+
+       // d3.max(graphTwoData[0].values, function (d) { return +d.price; })
+       for (let j = 0; j < final_data.length; j++) {
+          final_data[j]["values"].forEach(function (item) {
+              graphData.push({ name: final_data[j].name, year:item.date, amount:item.price })
+              maxGraph = Math.max(maxGraph, item.price)
+              minGraph = Math.min(minGraph, item.price)
+          })
+       }
+
+       let purposes = nestData("name", "amount", graphData)
+                   .sort(function (a, b) { return b.value - a.value })
+                   .map(d=>d.key);
+
+       return { graphData, purposes, minGraph, maxGraph}
+
+   }
+
+   function getChartConfig() {
+       let margin = { top: 10, right: 20, bottom: 50, left: 200 },
+           width = 1700 - margin.left - margin.right,
+           height = 1000 - margin.top - margin.bottom;
+
+       let container = d3.select(".chart")
+           .attr("width", width + margin.left + margin.right)
+           .attr("height", height + margin.top + margin.bottom)
+           .append("g")
+           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+       return { width, height, container, margin }
+   }
+
+   function getMatrixChartScale(config, data) {
+
+       let { purposes, maxGraph, minGraph } = data;
+       debugger;
+       let { height, width } = config;
+
+       let yScale = d3.scalePoint()
+           .range([0, height])
+           .domain(purposes.map(d => d))
+           .padding(1)
+
+       let parseDate = d3.timeParse("%Y");
+
+       let xScale = d3.scaleTime()
+           .domain([parseDate(1972), parseDate(2013)])
+           .range([0, width])
+
+
+       let rScale = d3.scalePow().exponent(0.5)
+           .domain([minGraph, maxGraph])
+           .range([8, 50])
+
+
+       return { yScale, xScale, rScale}
+
+   }
+
+   function drawMatrixChartAxis(config, scales) {
+       let { yScale, xScale } = scales;
+
+       let { container, height, width, margin } = config;
+
+       let yAxis = d3.axisLeft(yScale);
+       container.append("g")
+           .attr("class", "y axis")
+           .style("font-size", "15px")
+           .call(yAxis);
+
+       container.append("text")
+           .attr("transform", "rotate(-90)")
+           .attr("y", 0 - margin.left + 20)
+           .attr("x", 0 - (height / 2))
+           .attr("dy", "1em")
+           .style("text-anchor", "middle")
+           .style("font-size", "18px")
+           //.text("Top 10 purposes of Disbursements ");
+
+
+       let xAxis = d3.axisTop(xScale)
+       container.append("g")
+           .attr("class", "x axis")
+           .style("font-size", "15px")
+           .attr("transform", "translate(0," + height + ")")
+           .call(xAxis);
+
+       // text label for the x axis
+       container.append("text")
+           .attr("transform",
+               "translate(" + ((width) / 2) + " ," +
+               (height + margin.top + 30) + ")")
+           .style("text-anchor", "middle")
+           .style("font-size", "20px")
+           .text("Year");
+
+   }
+
+   function drawGrid(config, scales) {
+       let { container, height } = config;
+       let { xScale } = scales;
+
+       let years = [];
+
+       for (let i = 1972; i <= 2013; i++) {
+           years.push(i);
+       }
+
+       let parseDate = d3.timeParse("%Y");
+
+       years.forEach(year => {
+           container
+               .append("line")
+               .style("stroke", "#e4e4e4")
+               .style("stroke-dasharray", ("3, 3"))
+               .attr("y1", height)
+               .attr("y2", 0)
+               .attr("x1", xScale(parseDate(year)))
+               .attr("x2", xScale(parseDate(year)))
+       })
+
+   }
+
+   function drawMatrixChartCicles(config, scales, data) {
+       let { yScale, xScale, rScale } = scales;
+       let { container } = config;
+       let { graphData } = data
+
+       let parseDate = d3.timeParse("%Y");
+
+       let circle = container.selectAll("circle")
+
+       circle.data(graphData)
+           .enter()
+           .append("circle")
+           .attr("cx", (d) => xScale(parseDate(d.year)))
+           .attr("cy", (d) => yScale(d.name))
+           .attr("r", (d) => rScale(d.amount))
+           //.attr("fill", "#C3BBF4")
+          .attr("fill", "#4682B4")
+           .style("opacity", 0.8)
+
+   }
+
+   function drawLegend(config, data, scales) {
+       let { container, width, height, margin } = config;
+       let { maxGraph, minGraph } = data;
+       let { rScale } = scales;
+
+       // Bubble legend
+       let bubbleData = [minGraph + maxGraph / 20, minGraph + maxGraph / 5, minGraph + maxGraph / 2, maxGraph]
+
+       let bubbleLegend = container.selectAll(".bubbleLegend")
+           .data(bubbleData)
+           .enter().append("g")
+           .attr("class", "bubbleLegend")
+           .attr("transform", "translate(" + (width + margin.right / 2) + "," + (height * 0.12) + ")")
+
+       bubbleLegend.append("circle")
+           .attr("cy", function (d) { return -rScale(d); })
+           .attr("r", rScale);
+
+       bubbleLegend.append("text")
+           .attr("y", function (d) { return -2 * rScale(d); })
+           .attr("dy", "1.3em")
+           .text(function (d) { return (d / 1000000000).toFixed(2) + " B" })
+           .attr("font-size", "10px")
+
+   }
+
+   function drawChart() {
+       let data = processData();
+       let config = getChartConfig();
+       let scales = getMatrixChartScale(config, data);
+       drawGrid(config, scales);
+       drawMatrixChartAxis(config, scales);
+       drawMatrixChartCicles(config, scales, data)
+      // drawLegend(config, data, scales)
+   }
+
+
+
+   loadData().then(drawChart);
+
+   </script>
